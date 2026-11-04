@@ -126,7 +126,7 @@ The models
   reports no confidence score.
 
 Where each file came from is recorded in
-`models/README.md <https://github.com/andreazignoli/pyoxynet/blob/master/pyoxynet/pyoxynet/models/README.md>`_.
+`models/README.md <https://github.com/oxynet-cpet/pyoxynet/blob/master/pyoxynet/pyoxynet/models/README.md>`_.
 
 Upgrading from 0.1.x
 --------------------

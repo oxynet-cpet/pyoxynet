@@ -69,8 +69,8 @@ Contents
    :maxdepth: 1
    :caption: Links
 
-   GitHub repository <https://github.com/andreazignoli/pyoxynet>
-   GitHub Discussions <https://github.com/andreazignoli/pyoxynet/discussions>
+   GitHub repository <https://github.com/oxynet-cpet/pyoxynet>
+   GitHub Discussions <https://github.com/oxynet-cpet/pyoxynet/discussions>
    Oxynet <https://www.oxynet.net>
 
 pyoxynet is research software, not a medical device: it does not diagnose, and its results are no

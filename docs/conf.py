@@ -85,7 +85,7 @@ html_theme_options = {
         'color-foreground-primary': BRAND['foreground'],
         'color-foreground-muted': BRAND['muted'],
     },
-    'source_repository': 'https://github.com/andreazignoli/pyoxynet/',
+    'source_repository': 'https://github.com/oxynet-cpet/pyoxynet/',
     'source_branch': 'master',
     'source_directory': 'docs/',
 }
