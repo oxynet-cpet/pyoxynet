@@ -144,6 +144,14 @@ Upgrading from 0.1.x
 * The ``[tflite]`` and ``[full]`` extras are gone: the base install runs everything.
 * Since 1.0.2, ``generate_CPET`` and ``draw_real_test`` return their labels as numbers, not
   strings, and print nothing unless ``verbose=True``.
+* Since 1.1.0, the format names ``Test`` detects describe how a file is read, not where it
+  came from: for example ``csv_nom_banner`` (was ``mourot_cardiac``), ``csv_german_underscore``
+  (``unisbz``), ``cortex_csv_german`` (``cortex_bruce``) and ``pnoe_csv`` (``rowing_ben``). Code
+  comparing ``Test.metabolimeter`` with an old name needs the new one.
+* Since 1.1.0, ``load_canonical_json_data`` loads a breath-by-breath JSON record, and the
+  sample record is ``test/canonical_json_test.json``. The 1.0 names,
+  ``load_exercise_threshold_app_data`` and ``test/exercise_threshold_app_test.json``, still
+  work until 2.0; the function warns that it is deprecated.
 
 Citing
 ------

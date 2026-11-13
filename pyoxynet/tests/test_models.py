@@ -166,12 +166,12 @@ def test_the_file_reader_reads_a_generated_test(tmp_path):
     assert out['VT1']['time'] < out['VT2']['time']
 
 
-def test_exercise_thresholds_json_runs_through_inference():
-    data = json.loads(pkgutil.get_data('pyoxynet.test', 'exercise_threshold_app_test.json'))
-    df = utilities.load_exercise_threshold_app_data(data_dict=data)
+def test_canonical_json_runs_through_inference():
+    data = json.loads(pkgutil.get_data('pyoxynet.test', 'canonical_json_test.json'))
+    df = utilities.load_canonical_json_data(data_dict=data)
     _, out = utilities.test_pyoxynet(input_df=df)
     assert out['VT1']['time'] < out['VT2']['time']
 
 
 def test_version():
-    assert pyoxynet.__version__ == '1.0.2'
+    assert pyoxynet.__version__ == '1.1.0'
