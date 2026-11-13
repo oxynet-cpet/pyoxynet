@@ -97,7 +97,7 @@ class Test:
             if 'Messzeit' in df['ID:'].values:
                 # print('Most probably we have a Cortex file at second sight')
                 # print(df)
-                self.metabolimeter = 'cortex_bruce'
+                self.metabolimeter = 'cortex_csv_german'
         except:
             pass
 
@@ -105,34 +105,34 @@ class Test:
             if 'Patient' in df.columns[0]:
                 # print('Most probably we have a Cortex file at second sight')
                 # print(df)
-                self.metabolimeter = 'cortex_bruce_2'
+                self.metabolimeter = 'cortex_csv_patient'
         except:
             pass
 
         try:
             if 'Marqueur' in df[df.columns[2]].tolist():
-                print('Most probably we have a Cortex file that Bruce provided')
-                self.metabolimeter = 'cortex_bruce_3'
+                print('Most probably we have a Cortex export with French headers')
+                self.metabolimeter = 'cortex_csv_french'
 
             if 'Work' in df.columns[2]:
-                print('Most probably we have an Italian file from cardiac patients (CENTRO MONZINO)')
-                self.metabolimeter = 'centro-monzino'
+                print("Most probably we have a file with 'Work' as its third column")
+                self.metabolimeter = 'csv_work_third_column'
 
             if 'MINUTE' in df.columns[0] or 'NOM :' in df.columns[0]:
-                print('Most probably we have a Mourot file from cardiac patients')
-                self.metabolimeter = 'mourot_cardiac'
+                print("Most probably we have a file with a French subject banner ('NOM :')")
+                self.metabolimeter = 'csv_nom_banner'
 
             if 'Time' in df.columns[0] and 'Load' in df.columns[1]:
-                print('Most probably we have a Low file')
-                self.metabolimeter = 'low'
+                print('Most probably we have a CSV opening with Time and Load')
+                self.metabolimeter = 'csv_time_load'
 
             if 'Time' in df.columns[0] and 'Time' in df.columns[1]:
                 print('Most probably we have a VO2Master file')
                 self.metabolimeter = 'VO2Master'
 
             if 'Zeit' in df.columns[0]:
-                print('Most probably we have a Unisbz file')
-                self.metabolimeter = 'unisbz'
+                print('Most probably we have a German-headed CSV')
+                self.metabolimeter = 'csv_german_underscore'
 
             if 'Codice' in df.columns[0]:
                 print('Most probably we have a Italian Cosmed file')
@@ -159,24 +159,24 @@ class Test:
                 self.metabolimeter = 'cosmed'
 
             if 'Temps' in df[df.columns[0]].unique():
-                print('Most probably we have a French Mourot file')
-                self.metabolimeter = 'mourot'
+                print("Most probably we have a file with 'Temps' among its rows")
+                self.metabolimeter = 'csv_temps_in_rows'
 
             if 'TEMPS' in df.columns[0]:
-                print('Most probably we have an French file')
-                self.metabolimeter = 'mourot_COPD'
+                print("Most probably we have a file with a 'TEMPS' clock column")
+                self.metabolimeter = 'csv_temps_header'
 
             if 'RF' in df.columns and 't' in df.columns and 'VE/VO2' in df.columns and 'VE/VCO2' in df.columns and 'R' in df.columns:
-                print('Most probably we have an file coming from the Exercise Threshold App')
-                self.metabolimeter = 'exercise_threshold_app'
+                print('Most probably we have a CSV with the canonical channel names')
+                self.metabolimeter = 'csv_canonical_names'
 
             if " V'O2   " in df.columns and " V'CO2  " in df.columns:
-                print('Most probably we have an file coming from the Uni of Ess')
-                self.metabolimeter = 'uni_of_essex'
+                print("Most probably we have a V'O2/V'CO2 CSV with gases in kPa")
+                self.metabolimeter = 'csv_prime_kpa'
 
             if "T(sec)" in df.columns and "PHASE" in df.columns:
-                print('Most probably we have an rowing file coming')
-                self.metabolimeter = 'rowing_ben'
+                print('Most probably we have a PNOE export')
+                self.metabolimeter = 'pnoe_csv'
 
         except:
             pass
@@ -356,7 +356,7 @@ class Test:
                 except:
                     pass
 
-        if self.metabolimeter == 'cortex_bruce_3':
+        if self.metabolimeter == 'cortex_csv_french':
 
             f = open(self.filename + self.data_extension, encoding="utf8", errors="ignore")
             df = read_csv(f, header=1)
@@ -589,7 +589,7 @@ class Test:
             self.VT1 = self.time[VT1_index]
             self.VT2 = self.time[VT2_index]
 
-        if self.metabolimeter == 'unisbz':
+        if self.metabolimeter == 'csv_german_underscore':
 
             df = self.df
 
@@ -706,10 +706,10 @@ class Test:
                 except:
                     pass
 
-        if self.metabolimeter == 'cortex_bruce':
+        if self.metabolimeter == 'cortex_csv_german':
 
             df = self.df
-            print('Reading data Bruce file!!!!')
+            print('Reading a Cortex export with German headers')
 
             starting_index = df.loc[df[df.columns[0]] == 'Messzeit'].index+2
             n_rows = df[df.columns[0]].last_valid_index()-1
@@ -768,10 +768,10 @@ class Test:
                     self.PetO2[i - starting_index[0]] = np.nan
                     self.PetCO2[i - starting_index[0]] = np.nan
 
-        if self.metabolimeter == 'cortex_bruce_2':
+        if self.metabolimeter == 'cortex_csv_patient':
 
             df = self.df
-            print('Reading data Bruce file type 2!!!!')
+            print("Reading a Cortex export with a 'Patient' header")
 
             starting_index = df.loc[df[df.columns[0]] == 't'].index+2
             n_rows = df[df.columns[0]].last_valid_index()-1
@@ -830,10 +830,10 @@ class Test:
                     self.PetO2[i - starting_index[0]] = np.nan
                     self.PetCO2[i - starting_index[0]] = np.nan
 
-        if self.metabolimeter == 'mourot':
+        if self.metabolimeter == 'csv_temps_in_rows':
 
             df = self.df
-            # print('Reading data Mourot file!!!!')
+            # print("Reading a file with 'Temps' among its rows")
 
             starting_index = df.loc[df[df.columns[0]] == 'Temps'].index+2
             n_rows = df[df.columns[0]].last_valid_index()-1
@@ -906,10 +906,10 @@ class Test:
                     self.PetO2[i - starting_index[0]] = np.nan
                     self.PetCO2[i - starting_index[0]] = np.nan
 
-        if self.metabolimeter == 'mourot_COPD':
+        if self.metabolimeter == 'csv_temps_header':
 
             df = self.df
-            print('Reading data Mourot file with no age nor BMI data !!!!')
+            print("Reading a 'TEMPS' file with no age or BMI data")
 
             starting_index = [1]
             n_rows = df[df.columns[0]].last_valid_index() - 3
@@ -962,7 +962,7 @@ class Test:
 
             self.Rf = self.time * 0
 
-        if self.metabolimeter == 'low':
+        if self.metabolimeter == 'csv_time_load':
 
             df = self.df
 
@@ -1044,7 +1044,7 @@ class Test:
                     self.VE[i - 2] = np.nan
                     self.HR[i - 2] = np.nan
 
-        if self.metabolimeter == 'centro-monzino':
+        if self.metabolimeter == 'csv_work_third_column':
 
             df = self.df
 
@@ -1087,7 +1087,7 @@ class Test:
                     self.VE[i - 2] = np.nan
                     self.HR[i - 2] = np.nan
 
-        if self.metabolimeter == 'mourot_cardiac':
+        if self.metabolimeter == 'csv_nom_banner':
 
             data = read_csv(self.filename + self.data_extension, encoding=result['encoding'], header=0, nrows=0, sep=',')
             d = gender.Detector()
@@ -1154,7 +1154,7 @@ class Test:
             self.PetO2 = df.PetO2_I
             self.PetCO2 = df.PetCO2_I
             # The example tests carry age, gender, weight and height; generate_CPET's output does not.
-            # Without them, use the defaults the exercise_threshold_app branch uses.
+            # Without them, use the defaults the csv_canonical_names branch uses.
             age_column = 'Age' if 'Age' in df.columns else 'age'
             self.age = df[age_column].mean() if age_column in df.columns else 45
             if 'gender' not in df.columns:
@@ -1166,7 +1166,7 @@ class Test:
             self.weight = df.weight.mean() if 'weight' in df.columns else 70
             self.height = df.height.mean() if 'height' in df.columns else 170
 
-        if self.metabolimeter == 'exercise_threshold_app':
+        if self.metabolimeter == 'csv_canonical_names':
             self.time = df.t
             self.VO2 = df.VO2
             self.VCO2 = df.VCO2
@@ -1186,7 +1186,7 @@ class Test:
             # default to 170
             self.height = 170
 
-        if self.metabolimeter == 'uni_of_essex':
+        if self.metabolimeter == 'csv_prime_kpa':
 
             # print('Reading age')
             self.age = float(30)
@@ -1230,10 +1230,10 @@ class Test:
                     self.PetCO2[i - 2] = np.nan
                     self.Rf[i - 2] = np.nan
 
-        if self.metabolimeter == 'rowing_ben':
+        if self.metabolimeter == 'pnoe_csv':
 
             df = self.df
-            print('Reading data rowing file with no age nor BMI data !!!!')
+            print('Reading a PNOE export with no age or BMI data')
 
             starting_index = [1]
             n_rows = df[df.columns[0]].last_valid_index() - 3
@@ -1294,13 +1294,13 @@ class Test:
         self.PetCO2 = np.nan_to_num(self.PetCO2)
 
         # Rolling averages
-        if self.metabolimeter != 'low':
+        if self.metabolimeter != 'csv_time_load':
 
             self.Rf_F = uniform_filter1d(self.Rf, size=filter_size)
             self.PetO2_F = uniform_filter1d(self.PetO2, size=filter_size)
             self.PetCO2_F = uniform_filter1d(self.PetCO2, size=filter_size)
 
-        if self.metabolimeter == 'low':
+        if self.metabolimeter == 'csv_time_load':
             self.Rf_F = np.zeros((n_rows - 2,), dtype=np.float32)
             self.PetO2_F = np.zeros((n_rows - 2,), dtype=np.float32)
             self.PetCO2_F = np.zeros((n_rows - 2,), dtype=np.float32)
@@ -1513,7 +1513,7 @@ class Test:
             self.domain[(self.time_I >= self.VT1) & (self.time_I < self.VT2)] = 0 # moderate
             self.domain[self.time_I >= self.VT2] = 1 # high
 
-        if self.metabolimeter == 'mourot' or self.metabolimeter == 'mourot_COPD' or self.metabolimeter == 'low' \
+        if self.metabolimeter == 'csv_temps_in_rows' or self.metabolimeter == 'csv_temps_header' or self.metabolimeter == 'csv_time_load' \
                 or self.metabolimeter == 'cosmed':
 
             VT1 = int(label_data_frame[label_data_frame.id==self.filename_cleared].Feature1.values[0])
@@ -1528,7 +1528,7 @@ class Test:
             self.domain[(self.time_I >= VT1) & (self.time_I < VT2)] = 0 # moderate
             self.domain[self.time_I >= VT2] = 1 # high
 
-        if self.metabolimeter == 'mourot_cardiac':
+        if self.metabolimeter == 'csv_nom_banner':
 
             print(self.filename.split('/')[-1])
 
@@ -1546,7 +1546,7 @@ class Test:
             self.domain[(self.time_I >= VT1) & (self.time_I < VT2)] = 0 # moderate
             self.domain[self.time_I >= VT2] = 1 # high
 
-        if self.metabolimeter == 'unisbz':
+        if self.metabolimeter == 'csv_german_underscore':
 
             VT1 = int(label_data_frame[label_data_frame.id==int(self.filename_cleared)].Feature1.values[0])
 

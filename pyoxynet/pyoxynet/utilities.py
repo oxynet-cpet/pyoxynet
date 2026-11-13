@@ -8,7 +8,8 @@ from scipy.interpolate import interp1d
 # pandas or scipy
 __all__ = ['PrintHello', 'get_sec', 'normalize', 'optimal_filter', 'MODELS', 'REMOVED_MODELS',
            'ModelOutput', 'TFLiteModel', 'load_model', 'load_tf_model', 'load_generator',
-           'load_tf_generator', 'load_csv_data', 'draw_real_test', 'load_exercise_threshold_app_data',
+           'load_tf_generator', 'load_csv_data', 'draw_real_test', 'load_canonical_json_data',
+           'load_exercise_threshold_app_data',
            'test_pyoxynet', 'create_probabilities', 'random_walk', 'generate_CPET']
 
 def PrintHello(hello='hello'):
@@ -305,7 +306,7 @@ EXERCISE_THRESHOLD_NAMES = {"time": "t",
 def _breath_by_breath(df, duration):
     """Rebuild breaths from a one-second test: each breath is the median of the rows it spans
 
-    Breath lengths come from RF_I. The result uses the Exercise Thresholds names (t, VO2, ...).
+    Breath lengths come from RF_I. The result uses the canonical JSON names (t, VO2, ...).
     Adds a 'breaths' column (breath length, s) to df, as draw_real_test and generate_CPET always did.
 
     Parameters:
@@ -458,16 +459,19 @@ def draw_real_test(resting='random', index=None, noise=True, verbose=False):
     data['created'] = datetime.today().strftime("%m/%d/%Y - %H:%M:%S")
     data['resting'] = bool(resting)
 
-    # create the dict for the exercise threshold app
+    # the same record shape as canonical JSON
     data['data'] = _breath_by_breath(df, duration)
 
     return df, data
 
-def load_exercise_threshold_app_data(data_dict={}, filter_size = 20):
-    """Loads data from data dict with format provided by https://www.exercisethresholds.com/
+def load_canonical_json_data(data_dict={}, filter_size = 20):
+    """Loads a breath-by-breath JSON record into a data frame pyoxynet can run on
+
+    The record is a one-element list wrapping {"data": [...]}, one entry per breath with
+    t, VO2, VCO2, VE, PetO2, PetCO2, VE/VO2, VE/VCO2 and, when recorded, HR.
 
     Parameters:
-        data_dict (dict) : Dictionary with format like test/exercise_threshold_app_test.json
+        data_dict (list) : The record, shaped like test/canonical_json_test.json
 
     Returns:
         df (pandas df) : Pandas data frame with format that can be used by Pyoxynet for inference (columns needed: 'VO2_I', 'VCO2_I', 'VE_I', 'PetO2_I', 'PetCO2_I', 'VEVO2_I', 'VEVCO2_I'; 'HR_I' when the data has HR)
@@ -1276,7 +1280,7 @@ def generate_CPET(generator,
         print(f'VO2peak {int(VO2_peak)} mL/min, maximal RER {round(VCO2_peak / VO2_peak, 2)}')
 
     # TODO: create a function to generate this dict, as it is the same that we should use when drawing real data files
-    # create dict fro Exercise Threshold App
+    # the same record shape as canonical JSON
     data = dict()
     # data['Age'] = str(int(db_df_sample.Age.values))
     # data['Height'] = str(db_df_sample.height.values[0])
@@ -1300,7 +1304,19 @@ def generate_CPET(generator,
     data['W0'] = int(W0)
     data['W/min'] = int(eps)
 
-    # create the dict for the exercise threshold app
+    # the same record shape as canonical JSON
     data['data'] = _breath_by_breath(df, duration)
 
     return df, data
+
+
+def load_exercise_threshold_app_data(data_dict={}, filter_size=20):
+    """Deprecated since 1.1.0, removed in 2.0: use load_canonical_json_data.
+
+    Kept so code written against 1.0 keeps running. It warns once per call site and returns
+    exactly what load_canonical_json_data returns.
+    """
+    import warnings
+    warnings.warn("load_exercise_threshold_app_data is deprecated since pyoxynet 1.1.0 and will "
+                  "be removed in 2.0; use load_canonical_json_data", DeprecationWarning, stacklevel=2)
+    return load_canonical_json_data(data_dict=data_dict, filter_size=filter_size)
