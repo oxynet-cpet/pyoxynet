@@ -109,9 +109,9 @@ def test_no_crossing_message_names_the_threshold_not_a_domain(end):
     assert 'severe stays above heavy' not in str(err.value)
 
 
-def test_exercise_thresholds_data_without_hr_reports_nan():
-    data = json.loads(pkgutil.get_data('pyoxynet.test', 'exercise_threshold_app_test.json'))
-    df = utilities.load_exercise_threshold_app_data(data_dict=data)
+def test_canonical_json_without_hr_reports_nan():
+    data = json.loads(pkgutil.get_data('pyoxynet.test', 'canonical_json_test.json'))
+    df = utilities.load_canonical_json_data(data_dict=data)
     assert 'HR_I' not in df.columns
     _, out = utilities.test_pyoxynet(tf_model=model(), input_df=df)
     assert np.isnan(out['VT1']['HR']) and np.isnan(out['VT2']['HR'])
@@ -205,3 +205,21 @@ def test_draw_real_test_draws_the_test_it_is_asked_for():
     random.seed(0)
     df, _ = quiet(utilities.draw_real_test, resting=False, index=12)
     assert len(df) == len(ramp(12))
+
+
+def test_the_1_0_loader_name_still_works_and_warns():
+    """load_exercise_threshold_app_data is the 1.0 name: kept until 2.0, deprecated since 1.1."""
+    import warnings
+    data = json.loads(pkgutil.get_data('pyoxynet.test', 'canonical_json_test.json'))
+    new = utilities.load_canonical_json_data(data_dict=data)
+    with warnings.catch_warnings(record=True) as caught:
+        warnings.simplefilter("always")
+        old = utilities.load_exercise_threshold_app_data(data_dict=data)
+    assert any(issubclass(w.category, DeprecationWarning) for w in caught)
+    assert old.equals(new)
+
+
+def test_the_1_0_sample_file_is_still_packaged():
+    """Same record under its 1.0 name, until 2.0."""
+    old = pkgutil.get_data('pyoxynet.test', 'exercise_threshold_app_test.json')
+    assert old == pkgutil.get_data('pyoxynet.test', 'canonical_json_test.json')
