@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://raw.githubusercontent.com/andreazignoli/pyoxynet/master/docs/_static/oxynet-mark.svg" alt="Oxynet" width="96">
+  <img src="https://raw.githubusercontent.com/oxynet-cpet/pyoxynet/master/docs/_static/oxynet-mark.svg" alt="Oxynet" width="96">
 </p>
 
 # pyoxynet
@@ -88,7 +88,7 @@ out_df, thresholds = pyoxynet.test_pyoxynet(input_df=df, model='LSTM')
   reports no confidence score.
 
 Where each file came from is recorded in
-[models/README.md](https://github.com/andreazignoli/pyoxynet/blob/master/pyoxynet/pyoxynet/models/README.md).
+[models/README.md](https://github.com/oxynet-cpet/pyoxynet/blob/master/pyoxynet/pyoxynet/models/README.md).
 The models offered before 1.0.0 (`murias_lab`, `AIS`, `NSWIS`, `TCN`, `LSTMGRUModel`) were removed.
 Asking for one raises an error that names the available ones, and the earlier releases remain on
 PyPI. In 0.1.12, `'CNN'` loaded a different network (`regressor`), so 1.0 gives different
@@ -125,8 +125,8 @@ JSON. API keys are free: [app.oxynet.net/signup](https://app.oxynet.net/signup).
 
 ## Questions and citing
 
-Questions and ideas go to [GitHub Discussions](https://github.com/andreazignoli/pyoxynet/discussions),
-bugs to [issues](https://github.com/andreazignoli/pyoxynet/issues).
+Questions and ideas go to [GitHub Discussions](https://github.com/oxynet-cpet/pyoxynet/discussions),
+bugs to [issues](https://github.com/oxynet-cpet/pyoxynet/issues).
 
 If you use the CNN, cite:
 

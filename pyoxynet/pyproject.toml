@@ -43,9 +43,9 @@ test = ["pytest"]
 [project.urls]
 Homepage = "https://www.oxynet.net"
 Documentation = "https://pyoxynet.readthedocs.io"
-Source = "https://github.com/andreazignoli/pyoxynet"
-Issues = "https://github.com/andreazignoli/pyoxynet/issues"
-Changelog = "https://github.com/andreazignoli/pyoxynet/releases"
+Source = "https://github.com/oxynet-cpet/pyoxynet"
+Issues = "https://github.com/oxynet-cpet/pyoxynet/issues"
+Changelog = "https://github.com/oxynet-cpet/pyoxynet/releases"
 
 [tool.setuptools]
 packages = ["pyoxynet", "pyoxynet.data_test", "pyoxynet.test"]
