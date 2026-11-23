@@ -32,6 +32,9 @@ A change that also touches the website is one PR here and one there, each merged
 - **Nothing flows in from the hosted service:** no production weights, parser, parser fixes
   or analyses. Polishing pyoxynet means making its own code install and run, not making it
   more like the service.
+- **The bundled test recordings are anonymised and cleared for public release** (maintainer,
+  2026-10-28; the orchestration repo's `docs/pyoxynet-assessment.md`, section 1): never propose
+  withdrawing them. Ask before adding any other recording.
 - **Citations come from Crossref, PubMed or this repository's docs**, never from memory.
 - **Words:** no em dashes in anything a user reads; never a confidence percentage; oscillatory
   ventilation, wherever it is mentioned, is beta (one heart-failure cohort, transportability
@@ -49,10 +52,14 @@ Check alignment before tagging, not after (maintainer, 2026-11-20).
    code that will ship: `README.md`, `pyoxynet/README.md` (the PyPI page), `docs/*.rst`, and the
    website's `PYOXYNET` facts and Python page. Read every statement about the hosted API
    against what it serves today (`https://app.oxynet.net/llms-full.txt`). Check the citations.
-3. **Bump `version` in `pyoxynet/pyproject.toml`.** `master` needs an approving review, so the
-   maintainer merges and pushes the `v*` tag. `.github/workflows/release.yml` refuses a tag that
-   differs from that version, tests the wheel on all three systems, and publishes to PyPI by
-   trusted publishing (publisher `oxynet-cpet/pyoxynet`, `release.yml`, environment `pypi`).
+3. **Bump `version` in `pyoxynet/pyproject.toml`.** `master` needs an approving review, and
+   `enforce_admins` is off: since 2026-11-23 Claude merges with `gh pr merge N --merge --admin`
+   once CI is green and `align.py pyoxynet` is clean. The `v*` tag still needs the
+   maintainer's go. `.github/workflows/release.yml` refuses a tag that differs from that
+   version, tests the wheel on all three systems, and publishes to PyPI by trusted publishing
+   (publisher `oxynet-cpet/pyoxynet`, `release.yml`, environment `pypi`). If only the publish
+   fails after the tag, `gh run rerun <id> --failed` reruns that job, with no new tag (1.1.0,
+   2026-11-13).
 4. **Once PyPI shows the release:** a website PR moves `PYOXYNET` to it, and the ReadTheDocs
    build of `master` should show the new version.
 5. **Keep it proportionate:** fix what is false; minor wording drift is noted once and left.
