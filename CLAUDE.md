@@ -41,15 +41,18 @@ A change that also touches the website is one PR here and one there, each merged
 
 Check alignment before tagging, not after (maintainer, 2026-11-20).
 
-1. **List what the release changes and every place that states it**, and read each against the
+1. **First, from the workspace: `python3 harness/align.py pyoxynet`** (`--at PATH` for a
+   branch checked out elsewhere). It runs the registry check and compares this repo's version
+   with PyPI and the website, and every `app.oxynet.net` link and `/v1` path in the READMEs and
+   `docs/*.rst` with the live service. A finding naming pyoxynet blocks the tag.
+2. **List what the release changes and every place that states it**, and read each against the
    code that will ship: `README.md`, `pyoxynet/README.md` (the PyPI page), `docs/*.rst`, and the
    website's `PYOXYNET` facts and Python page. Read every statement about the hosted API
    against what it serves today (`https://app.oxynet.net/llms-full.txt`). Check the citations.
-   In the workspace, `python3 harness/registry.py check` must pass.
-2. **Bump `version` in `pyoxynet/pyproject.toml`.** `master` needs an approving review, so the
+3. **Bump `version` in `pyoxynet/pyproject.toml`.** `master` needs an approving review, so the
    maintainer merges and pushes the `v*` tag. `.github/workflows/release.yml` refuses a tag that
    differs from that version, tests the wheel on all three systems, and publishes to PyPI by
    trusted publishing (publisher `oxynet-cpet/pyoxynet`, `release.yml`, environment `pypi`).
-3. **Once PyPI shows the release:** a website PR moves `PYOXYNET` to it, and the ReadTheDocs
+4. **Once PyPI shows the release:** a website PR moves `PYOXYNET` to it, and the ReadTheDocs
    build of `master` should show the new version.
-4. **Keep it proportionate:** fix what is false; minor wording drift is noted once and left.
+5. **Keep it proportionate:** fix what is false; minor wording drift is noted once and left.
