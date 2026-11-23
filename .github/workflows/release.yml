@@ -1,6 +1,6 @@
 # Publishes pyoxynet to PyPI when a tag like v1.0.0 is pushed. The tag must match the version
 # in pyoxynet/pyproject.toml. PyPI trusts this workflow (trusted publishing), so no token is
-# stored anywhere: the PyPI project lists andreazignoli/pyoxynet, release.yml and the "pypi"
+# stored anywhere: the PyPI project lists oxynet-cpet/pyoxynet, release.yml and the "pypi"
 # environment as its publisher.
 name: release
 
